@@ -19,7 +19,7 @@ import numpy as np
 
 
 def _binary_repr(num: int, width: int) -> str:
-    """Return a binary string representation of `num` zero padded to `width`
+    """Return a binary string representation of `num` zero-padded to `width`
     bits."""
     return format(num, 'b').zfill(width)
 
@@ -33,15 +33,15 @@ class HilbertCurve:
         n_procs: int=0,
     ) -> None:
 
-        """Initialize a hilbert curve with,
+        """Initialize a Hilbert curve with,
 
         Args:
-            p (int or float): iterations to use in constructing the hilbert curve.
+            p (int or float): iterations to use in constructing the Hilbert curve.
                 if float, must satisfy p % 1 = 0
             n (int or float): number of dimensions.
                 if float must satisfy n % 1 = 0
             n_procs (int): number of processes to use
-                0 = dont use multiprocessing
+                0 = don't use multiprocessing
                -1 = use all available threads
                 any other positive integer = number of processes to use
 
@@ -83,10 +83,10 @@ class HilbertCurve:
 
 
     def _hilbert_integer_to_transpose(self, h: int) -> List[int]:
-        """Store a hilbert integer (`h`) as its transpose (`x`).
+        """Store a Hilbert integer (`h`) as its transpose (`x`).
 
         Args:
-            h (int): integer distance along hilbert curve
+            h (int): integer distance along Hilbert curve
 
         Returns:
             x (list): transpose of h
@@ -98,14 +98,14 @@ class HilbertCurve:
 
 
     def _transpose_to_hilbert_integer(self, x: Iterable[int]) -> int:
-        """Restore a hilbert integer (`h`) from its transpose (`x`).
+        """Restore a Hilbert integer (`h`) from its transpose (`x`).
 
         Args:
             x (list): transpose of h
                 (n components with values between 0 and 2**p-1)
 
         Returns:
-            h (int): integer distance along hilbert curve
+            h (int): integer distance along Hilbert curve
         """
         x_bit_str = [_binary_repr(x[i], self.p) for i in range(self.n)]
         h = int(''.join([y[i] for i in range(self.p) for y in x_bit_str]), 2)
@@ -113,13 +113,13 @@ class HilbertCurve:
 
 
     def point_from_distance(self, distance: int) -> Iterable[int]:
-        """Return a point in n-dimensional space given a distance along a hilbert curve.
+        """Return a point in n-dimensional space given a distance along a Hilbert curve.
 
         Args:
-            distance (int): integer distance along hilbert curve
+            distance (int): integer distance along Hilbert curve
 
         Returns:
-            point (iterable of ints): an n-dimensional vector of lengh n where
+            point (iterable of ints): an n-dimensional vector of length n where
             each component value is between 0 and 2**p-1.
         """
         x = self._hilbert_integer_to_transpose(int(distance))
@@ -154,15 +154,15 @@ class HilbertCurve:
         distances: Iterable[int],
         match_type: bool=False,
     ) -> Iterable[Iterable[int]]:
-        """Return points in n-dimensional space given distances along a hilbert curve.
+        """Return points in n-dimensional space given distances along a Hilbert curve.
 
         Args:
-            distances (iterable of int): iterable of integer distances along hilbert curve
+            distances (iterable of int): iterable of integer distances along Hilbert curve
             match_type (bool): if True, make type(points) = type(distances)
 
         Returns:
             points (iterable of iterable of ints): an iterable of n-dimensional vectors
-                where each vector has lengh n and component values between 0 and 2**p-1.
+                where each vector has length n and component values between 0 and 2**p-1.
                 if match_type=False will be list of lists else type(points) = type(distances)
         """
         for ii, dist in enumerate(distances):
@@ -199,14 +199,14 @@ class HilbertCurve:
 
 
     def distance_from_point(self, point: Iterable[int]) -> int:
-        """Return distance along the hilbert curve for a given point.
+        """Return distance along the Hilbert curve for a given point.
 
         Args:
             point (iterable of ints): an n-dimensional vector where each component value
                 is between 0 and 2**p-1.
 
         Returns:
-            distance (int): integer distance along hilbert curve
+            distance (int): integer distance along Hilbert curve
         """
         point = [int(el) for el in point]
 
@@ -246,15 +246,15 @@ class HilbertCurve:
         points: Iterable[Iterable[int]],
         match_type: bool=False,
     ) -> Iterable[int]:
-        """Return distances along the hilbert curve for a given set of points.
+        """Return distances along the Hilbert curve for a given set of points.
 
         Args:
             points (iterable of iterable of ints): an iterable of n-dimensional vectors
-                where each vector has lengh n and component values between 0 and 2**p-1.
+                where each vector has length n and component values between 0 and 2**p-1.
             match_type (bool): if True, make type(distances) = type(points)
 
         Returns:
-            distances (iterable of int): iterable of integer distances along hilbert curve
+            distances (iterable of int): iterable of integer distances along Hilbert curve
               the return type will match the type used for points.
         """
         for ii, point in enumerate(points):
@@ -299,7 +299,7 @@ class HilbertCurve:
 
 
     def __str__(self):
-        return f"HilbertCruve(p={self.p}, n={self.n}, n_procs={self.n_procs})"
+        return f"HilbertCurve(p={self.p}, n={self.n}, n_procs={self.n_procs})"
 
 
     def __repr__(self):
